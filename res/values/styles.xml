@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<style name="HorKonpon" parent="@style/Theme.AppCompat.Light">
+		<item name="android:actionBarStyle">@style/HorKonpon.ActionBar</item>
+		<item name="actionBarStyle">@style/HorKonpon.ActionBar</item>
+	</style>
+
+	<style name="HorKonpon.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
+		<item name="android:background">@color/HorKonponMain</item>
+		<item name="background">@color/HorKonponMain</item>
+		<item name="android:titleTextStyle">@style/HorKonpon.ActionBar.TitleTextStyle</item>
+		<item name="titleTextStyle">@style/HorKonpon.ActionBar.TitleTextStyle</item>
+	</style>
+
+	<style name="HorKonpon.ActionBar.TitleTextStyle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+		<item name="android:textColor">@color/Title</item>
+	</style>
+</resources>

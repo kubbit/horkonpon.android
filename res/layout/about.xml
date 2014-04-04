@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScrollView
+ xmlns:android="http://schemas.android.com/apk/res/android"
+ android:fillViewport="true"
+ android:layout_width="fill_parent"
+ android:layout_height="fill_parent">
+	<LinearLayout
+	 android:orientation="vertical"
+	 android:layout_width="fill_parent"
+	 android:paddingLeft="10dp"
+	 android:paddingRight="10dp"
+	 android:layout_height="wrap_content">
+		<TextView
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:layout_marginTop="10dp"
+		 android:layout_marginBottom="10dp"
+		 android:textColor="@color/HorKonponMain"
+		 android:textAllCaps="true"
+		 android:textStyle="bold"
+		 android:text="@string/about_subsidized" />
+		<RelativeLayout
+		 android:layout_width="match_parent"
+		 android:layout_height="wrap_content"
+		 android:layout_marginBottom="10dp">
+			<ImageView
+			 android:contentDescription="@string/about_gipuzkoako_foru_aldundia"
+			 android:layout_width="50dp"
+			 android:layout_height="50dp"
+			 android:scaleType="fitCenter"
+			 android:src="@drawable/gipuzkoa" />
+			<TextView
+			 android:layout_marginLeft="60dp"
+			 android:layout_width="wrap_content"
+			 android:layout_height="wrap_content"
+			 android:autoLink="web"
+			 android:linksClickable="true"
+			 android:textColorLink="@color/URL"
+			 android:text="@string/about_gipuzkoako_foru_aldundia" />
+		</RelativeLayout>
+		<RelativeLayout
+		 android:layout_width="match_parent"
+		 android:layout_height="wrap_content"
+		 android:layout_marginBottom="10dp">
+			<ImageView
+			 android:contentDescription="@string/about_errenteria"
+			 android:layout_width="50dp"
+			 android:layout_height="50dp"
+			 android:scaleType="fitCenter"
+			 android:src="@drawable/errenteria" />
+			<TextView
+			 android:layout_marginLeft="60dp"
+			 android:layout_width="wrap_content"
+			 android:layout_height="wrap_content"
+			 android:autoLink="web"
+			 android:linksClickable="true"
+			 android:textColorLink="@color/URL"
+			 android:text="@string/about_errenteria" />
+		</RelativeLayout>
+		<RelativeLayout
+		 android:layout_width="match_parent"
+		 android:layout_height="wrap_content"
+		 android:layout_marginBottom="10dp">
+			<ImageView
+			 android:contentDescription="@string/about_hernani"
+			 android:layout_width="50dp"
+			 android:layout_height="50dp"
+			 android:scaleType="fitCenter"
+			 android:src="@drawable/hernani" />
+			<TextView
+			 android:layout_marginLeft="60dp"
+			 android:layout_width="wrap_content"
+			 android:layout_height="wrap_content"
+			 android:autoLink="web"
+			 android:linksClickable="true"
+			 android:textColorLink="@color/URL"
+			 android:text="@string/about_hernani" />
+		</RelativeLayout>
+		<RelativeLayout
+		 android:layout_width="match_parent"
+		 android:layout_height="wrap_content">
+			<ImageView
+			 android:contentDescription="@string/about_pasaia"
+			 android:layout_width="50dp"
+			 android:layout_height="50dp"
+			 android:scaleType="fitCenter"
+			 android:src="@drawable/pasaia" />
+			<TextView
+			 android:layout_marginLeft="60dp"
+			 android:layout_width="wrap_content"
+			 android:layout_height="wrap_content"
+			 android:autoLink="web"
+			 android:linksClickable="true"
+			 android:textColorLink="@color/URL"
+			 android:text="@string/about_pasaia" />
+		</RelativeLayout>
+		<View
+		 android:layout_width="match_parent"
+		 android:layout_height="2dip"
+		 android:layout_marginTop="20dp"
+		 android:layout_marginBottom="20dp"
+		 android:layout_marginLeft="40dp"
+		 android:layout_marginRight="40dp"
+		 android:background="@color/HorKonponMain" />
+		<TextView
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:layout_marginTop="10dp"
+		 android:layout_marginBottom="10dp"
+		 android:textColor="@color/HorKonponMain"
+		 android:textAllCaps="true"
+		 android:textStyle="bold"
+		 android:text="@string/about_developed" />
+		<RelativeLayout
+		 android:layout_width="match_parent"
+		 android:layout_height="wrap_content"
+		 android:layout_marginBottom="20dp">
+			<ImageView
+			 android:contentDescription="@string/about_kubbit"
+			 android:layout_width="50dp"
+			 android:layout_height="50dp"
+			 android:scaleType="fitCenter"
+			 android:src="@drawable/kubbit" />
+			<TextView
+			 android:layout_marginLeft="60dp"
+			 android:layout_width="wrap_content"
+			 android:layout_height="wrap_content"
+			 android:autoLink="web"
+			 android:linksClickable="true"
+			 android:textColorLink="@color/URL"
+			 android:text="@string/about_kubbit" />
+		</RelativeLayout>
+	</LinearLayout>
+</ScrollView>

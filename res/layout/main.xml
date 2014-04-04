@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+ xmlns:android="http://schemas.android.com/apk/res/android"
+ android:orientation="vertical"
+ android:layout_width="fill_parent"
+ android:layout_height="fill_parent">
+	<Button
+	 android:id="@+id/send"
+	 android:layout_width="fill_parent"
+	 android:layout_height="wrap_content"
+	 android:layout_alignParentBottom="true"
+	 android:text="@string/send"
+	 android:onClick="sendOnClick" />
+	<ScrollView
+	 android:fillViewport="true"
+	 android:layout_above="@id/send"
+	 android:layout_width="fill_parent"
+	 android:layout_height="fill_parent">
+		<LinearLayout
+		 android:orientation="vertical"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content">
+			<ImageView
+			 android:id="@+id/img"
+			 android:contentDescription="@string/picture"
+			 android:background="#666666"
+			 android:layout_gravity="center_horizontal"
+			 android:layout_width="fill_parent"
+			 android:layout_height="150dp"
+			 android:scaleType="center"
+			 android:src="@drawable/camera"
+			 android:clickable="true"
+			 android:onClick="imgOnClick" />
+			<View
+			 android:background="@drawable/shadow"
+			 android:layout_width="match_parent"
+			 android:layout_height="10sp" />
+			<LinearLayout
+			 android:orientation="vertical"
+			 android:layout_width="fill_parent"
+			 android:layout_marginTop="15dp"
+			 android:paddingLeft="20dp"
+			 android:paddingRight="20dp"
+			 android:layout_height="wrap_content">
+				<TextView
+				 android:id="@+id/lbComment"
+				 android:layout_width="fill_parent"
+				 android:layout_height="wrap_content"
+				 android:paddingLeft="10dp"
+				 android:paddingRight="10dp"
+				 android:textColor="@color/HorKonponMain"
+				 android:textAllCaps="true"
+				 android:textStyle="bold"
+				 android:text="@string/comment" />
+				<View
+				 android:layout_width="match_parent"
+				 android:layout_height="2dip"
+				 android:background="@color/HorKonponMain" />
+				<EditText
+				 android:id="@+id/comment"
+				 android:contentDescription="@string/comment"
+				 android:layout_width="fill_parent"
+				 android:layout_height="wrap_content"
+				 android:paddingLeft="10dp"
+				 android:paddingRight="10dp"
+				 android:inputType="textMultiLine|textCapSentences|textLongMessage"
+				 android:gravity="top|left"
+				 android:minLines="3" />
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+</RelativeLayout>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">HorKonpon</string>
+	<string name="no_gps">GPS-a inaktibo</string>
+	<string name="searching_location">Kokapena bilatzen...</string>
+	<string name="location_set">Kokapena ezarrita</string>
+	<string name="picture">Argazkia</string>
+	<string name="fullname">Izena</string>
+	<string name="phone">Telefonoa</string>
+	<string name="mail">e-Posta</string>
+	<string name="comment">Oharrak</string>
+	<string name="send">Bidali</string>
+	<string name="preferences">Ezarpenak</string>
+	<string name="contact_info">Kontakturako informazioa</string>
+	<string name="ohartarazi">Ohartarazi</string>
+	<string name="ohartarazi_deskribapena">Udaletxeari egoera aldaketei buruzko ohartarazpenak bidaltzea eskatu</string>
+	<string name="anonymous">Anonimoki bidali</string>
+	<string name="anonymous_deskribapena">Hau desaktibatzean Lege-oharra atalean agertzen diren zure datuen erabilera baldintzak onartzen dituzu</string>
+	<string name="send_progress">Bidaltzen...</string>
+	<string name="language">Hizkuntza</string>
+	<string-array name="languageEntries">
+		<item name="system_default_language">Sistemako hizkuntza</item>
+		<item>Español</item>
+		<item>Euskera</item>
+	</string-array>
+	<string name="sent">Bidalita</string>
+	<string name="gps_disabled">GPS-a ez dago gaituta. Ezarpenak ireki eskuz gaitzeko?</string>
+	<string name="button_positive">Bai</string>
+	<string name="button_negative">Ez</string>
+	<string name="error_http">Bidaltzerakoan errorea. Beranduago saiatu berriz ere.</string>
+	<string name="error_no_internet">Internet-erako konexioa beharrezkoa da gertakaria bidaltzeko.</string>
+	<string name="validate_gertakaria_no_gps">Kokapena ezin izan da ezarri. GPS-a aktibo dagoelaz ziurtatu</string>
+	<string name="validate_gertakaria_no_data">Argazkia edo oharra beharrezkoa da</string>
+	<string name="disclaimer">Lege-oharra</string>
+	<string name="disclaimer_text"><![CDATA[
+<html>
+	<head>
+		<style type="text/css">
+body
+{
+	font-size: smaller;
+}
+p
+{
+	text-align: justify;
+	text-indent: 1em;
+}
+div:first-of-type
+{
+	margin-bottom: 4em;
+}
+		</style>
+	</head>
+	<body>
+		<div>
+			<p><b>PRIBATUTASUNA</b></p>
+			<p>Emandako Datu Pertsonalak erabiltzailearen onespenaz jasotzen dira, tratamendu automatizatua izango dute eta KUBBIT INFORMATION TECHNOLOGY S.L.ko Informazio Sisteman sartuko dira.</p>
+			<p>Datu horiek, aplikazioaren eremuan, kudeaketarako soilik erabiliko dira, eta beste administrazio publikoei edo besteri laga edo jakinarazi ahal izango zaizkie abenduaren 13ko 15/1999 Lege Organikoan (Datu Pertsonalak Babestekoan) aurreikusitakoa gertatzen denean.</p>
+			<p>Interesdunek datuak eskuratzeko, ezeztatzeko, zuzentzeko eta aurka egiteko eskubidea erabili ahal izango dute posta elektroniko bat <i><a href="mailto:arco@kubbit.com">arco@kubbit.com</a></i> helbidera bidaliz. Mezuaren gaian "BAJA HORKONPON" ezarri beharko dute.</p>
+		</div>
+		<div>
+			<p><b>LEGEZKO OHARRA</b></p>
+			<p>"Horkonpon" izeneko aplikazioaren eta bertan agertzen diren elementu guztien jabetza intelektualaren eskubideak KUBBIT INFORMATION TECHNOLOGY S.L.-ek (hemendik aurrera KUBBIT) dauzka. "Horkonpon" aplikazioa "GNU General Public License version 2 (GPLv2)" lizentziarekin baimendu da. Hurrengo helbidean GPLv2-ren informazio guztia lortu daiteke:<br />
+			<a href="http://www.gnu.org/licenses/gpl-2.0.html">http://www.gnu.org/licenses/gpl-2.0.html</a></p>
+			<p>KUBBITek bere buruari aitortzen dio, edozein unean eta aurretiaz ohartarazi gabe, aplikazioan dagoen informazioa edo haren konfigurazio zein itxuraren aldaketak eta eguneraketak egiteko ahalmena.</p>
+			<p>"Horkonpon" aplikazioaren bitartez bidaltzen den informazioa erabiltzailearen ardurakoak izango dira. Informazio bidalketa hauek sor dezakeen ondorio edo kaltearen inguruan, KUBBIT-ek ez du inolako erantzukizunik izango, bere eskumenen erabilera zehatzetan jarraitu behar dituen legezko xedapenak ezartzearen ondorioak diren egintza guztietan izan ezik.</p>
+		</div>
+	</body>
+</html>
+	]]></string>
+	<string name="about">Honi buruz...</string>
+	<string name="about_subsidized">Dirulaguntza</string>
+	<string name="about_gipuzkoako_foru_aldundia"><b>Gipuzkoako Foru Aldundia</b>\n<i>http://www.gipuzkoa.net</i></string>
+	<string name="about_errenteria"><b>Errenteriako Udala</b>\n<i>http://www.errenteria.net</i></string>
+	<string name="about_hernani"><b>Hernaniko Udala</b>\n<i>http://www.hernani.net</i></string>
+	<string name="about_pasaia"><b>Pasaiako Udala</b>\n<i>http://www.pasaia.net</i></string>
+	<string name="about_developed">Garapena</string>
+	<string name="about_kubbit"><b>Kubbit Information Technology</b>\n<i>http://kubbit.com</i></string>
+</resources>

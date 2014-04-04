@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory
+	 android:title="@string/contact_info"
+	 android:key="pref_contact_info">
+		<CheckBoxPreference
+		 android:key="pref_anomymous"
+		 android:title="@string/anonymous"
+		 android:summary="@string/anonymous_deskribapena"
+		 android:disableDependentsState="true"
+		 android:defaultValue="true" />
+		<com.kubbit.preference.EditTextPreference
+		 android:key="pref_fullname"
+		 android:inputType="textCapWords"
+		 android:title="@string/fullname"
+		 android:dependency="pref_anomymous" />
+		<com.kubbit.preference.EditTextPreference
+		 android:key="pref_phone"
+		 android:inputType="phone"
+		 android:title="@string/phone"
+		 android:dependency="pref_anomymous" />
+		<com.kubbit.preference.EditTextPreference
+		 android:key="pref_mail"
+		 android:inputType="textEmailAddress"
+		 android:title="@string/mail"
+		 android:dependency="pref_anomymous" />
+	</PreferenceCategory>
+	<PreferenceCategory
+	 android:title="@string/preferences">
+		<CheckBoxPreference
+		 android:key="pref_notify"
+		 android:title="@string/ohartarazi"
+		 android:summary="@string/ohartarazi_deskribapena"
+		 android:defaultValue="false"
+		 android:dependency="pref_anomymous" />
+		<com.kubbit.preference.ListPreference
+		 android:key="pref_language"
+		 android:title="@string/language"
+		 android:defaultValue=""
+		 android:entries="@array/languageEntries"
+		 android:entryValues="@array/languageValues" />
+	</PreferenceCategory>
+</PreferenceScreen>

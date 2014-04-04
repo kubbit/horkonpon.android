@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu
+ xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:horkonpon="http://schemas.android.com/apk/res-auto">
+	<item
+	 android:id="@+id/action_disclaimer"
+	 android:title="@string/disclaimer"
+	 horkonpon:showAsAction="never"
+	 android:onClick="disclaimerOnClick" />
+	<item
+	 android:id="@+id/action_about"
+	 android:title="@string/about"
+	 horkonpon:showAsAction="never"
+	 android:onClick="aboutOnClick" />
+	<item
+	 android:id="@+id/action_preferences"
+	 android:icon="@drawable/ic_action_settings"
+	 android:title="@string/preferences"
+	 horkonpon:showAsAction="ifRoom"
+	 android:onClick="preferencesOnClick" />
+</menu>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+ xmlns:android="http://schemas.android.com/apk/res/android"
+ android:background="@drawable/splash_background"
+ android:orientation="vertical"
+ android:layout_width="fill_parent"
+ android:layout_height="fill_parent">
+	<TextView
+	 android:id="@+id/lbTitle"
+	 android:layout_width="fill_parent"
+	 android:layout_height="wrap_content"
+	 android:gravity="center"
+	 android:textColor="@color/HorKonponMain"
+	 android:textSize="40sp"
+	 android:textStyle="bold"
+	 android:text="@string/app_name" />
+	<ImageView
+	 android:contentDescription="@string/app_name"
+	 android:layout_width="match_parent"
+	 android:layout_height="0dp"
+	 android:layout_marginLeft="10dp"
+	 android:layout_marginRight="10dp"
+	 android:layout_weight="1"
+	 android:scaleType="fitCenter"
+	 android:src="@drawable/splash" />
+	<LinearLayout
+	 xmlns:android="http://schemas.android.com/apk/res/android"
+	 android:orientation="horizontal"
+	 android:layout_width="fill_parent"
+	 android:layout_height="50dp"
+	 android:layout_marginTop="30dp"
+	 android:layout_marginBottom="10dp"
+	 android:gravity="center">
+		<ImageView
+		 android:contentDescription="@string/about_pasaia"
+		 android:layout_width="50dp"
+		 android:layout_height="50dp"
+		 android:scaleType="fitCenter"
+		 android:src="@drawable/pasaia" />
+		<ImageView
+		 android:contentDescription="@string/about_errenteria"
+		 android:layout_width="50dp"
+		 android:layout_height="50dp"
+		 android:scaleType="fitCenter"
+		 android:layout_marginLeft="30dp"
+		 android:layout_marginRight="30dp"
+		 android:src="@drawable/errenteria" />
+		<ImageView
+		 android:contentDescription="@string/about_hernani"
+		 android:layout_width="50dp"
+		 android:layout_height="50dp"
+		 android:scaleType="fitCenter"
+		 android:src="@drawable/hernani" />
+	</LinearLayout>
+</LinearLayout>

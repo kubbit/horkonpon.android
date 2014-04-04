@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string-array name="languageEntries">
+		<item name="system_default_language">System default</item>
+		<item>Español</item>
+		<item>Euskera</item>
+	</string-array>
+	<string-array name="languageValues">
+		<item></item>
+		<item>es</item>
+		<item>eu</item>
+	</string-array>
+</resources>
