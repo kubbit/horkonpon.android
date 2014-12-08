@@ -112,6 +112,16 @@ public class Location implements LocationListener, Geocoder.addressSet
 		this.timer.onFinish = timer_onFinish;
 	}
 
+	public Boolean isSet()
+	{
+		if (this.location == null)
+			return false;
+		else if (this.getLatitude() == 0 && this.getLongitude() == 0)
+			return false;
+
+		return true;
+	}
+
 	public Boolean checkPosition()
 	{
 		if (!this.checkLastLocationTime())

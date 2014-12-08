@@ -14,13 +14,16 @@ import com.kubbit.utils.Log;
 public class Image
 {
 	private static final int JPG_QUALITY = 90;
-	private static final int MIN_DIMENSION = 800;
+	private static final int MIN_DIMENSION = 600;
 
 	private Bitmap bmp;
 	private int orientation;
 
-	public Image(File file)
+	public Image(File file) throws Exception
 	{
+		if (file == null)
+			throw new Exception("com.kubbit.media.Image: null file");
+
 		this.getOrientation(file);
 		this.createBitmap(file);
 	}

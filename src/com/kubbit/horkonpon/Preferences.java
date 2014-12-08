@@ -14,6 +14,7 @@ import com.kubbit.utils.Utils;
 public class Preferences extends PreferenceActivity implements OnSharedPreferenceChangeListener
 {
 	public static final String KEY_PREF_FIRST_TIME = "pref_first_time";
+	public static final String KEY_PREF_MESSAGE_SHOWN = "pref_message_shown";
 	public static final String KEY_PREF_FULLNAME = "pref_fullname";
 	public static final String KEY_PREF_PHONE = "pref_phone";
 	public static final String KEY_PREF_MAIL = "pref_mail";
@@ -30,6 +31,20 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 	public static Boolean getFirstTime()
 	{
 		return settings.getBoolean(KEY_PREF_FIRST_TIME, true);
+	}
+	public static Boolean getMessageShown()
+	{
+		return settings.getBoolean(KEY_PREF_MESSAGE_SHOWN, false);
+	}
+	public static void setMessageShown()
+	{
+
+		if (getMessageShown())
+			return;
+
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean(KEY_PREF_MESSAGE_SHOWN, true);
+		editor.commit();
 	}
 	public static String getFullName()
 	{
@@ -50,6 +65,16 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 	public static Boolean getNotify()
 	{
 		return settings.getBoolean(KEY_PREF_NOTIFY, false);
+	}
+
+	public static Boolean hasContactInfo()
+	{
+		if (getPhone() != null && !getPhone().equals(""))
+			return true;
+		else if (getMail() != null && !getMail().equals(""))
+			return true;
+
+		return false;
 	}
 
 	@Override

@@ -7,6 +7,8 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.json.JSONObject;
 
@@ -14,7 +16,8 @@ import com.kubbit.utils.Utils;
 
 public class Gertakaria
 {
-	final int HORKONPON_API_MESSAGE_VERSION = 1;
+	final int HORKONPON_API_MESSAGE_VERSION = 2;
+	final static String HORKONPON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
 	private String argazkia = "";
 	private String fitxategiIzena = "";
@@ -22,6 +25,7 @@ public class Gertakaria
 	private double longitudea = 0;
 	private double zehaztasuna = Float.MAX_VALUE;
 	private String herria = "";
+	private Boolean anonimoa = false;
 	private String izena = "";
 	private String telefonoa = "";
 	private String posta = "";
@@ -98,6 +102,14 @@ public class Gertakaria
 	public void setHerria(String herria)
 	{
 		this.herria = herria;
+	}
+	public Boolean getAnonimoa()
+	{
+		return this.anonimoa;
+	}
+	public void setAnonimoa(Boolean anonimoa)
+	{
+		this.anonimoa = anonimoa;
 	}
 	public String getIzena()
 	{
@@ -184,7 +196,8 @@ public class Gertakaria
 	{
 		JSONObject json = new JSONObject();
 
-		json.put("bertsioa", HORKONPON_API_MESSAGE_VERSION);
+		json.put("version", HORKONPON_API_MESSAGE_VERSION);
+		json.put("date", new SimpleDateFormat(HORKONPON_DATE_FORMAT).format(new Date()));
 
 		JSONObject app = new JSONObject();
 		app.put("os", Utils.getOSVersion());
@@ -193,35 +206,48 @@ public class Gertakaria
 
 		if (this.argazkia != null && !this.argazkia.equals(""))
 		{
-			JSONObject jsArgazkia = new JSONObject();
-			jsArgazkia.put("izena", this.fitxategiIzena);
-			jsArgazkia.put("edukia", this.argazkia);
-			json.put("argazkia", jsArgazkia);
+			JSONObject jsFitxategia = new JSONObject();
+			jsFitxategia.put("filename", this.fitxategiIzena);
+			jsFitxategia.put("content", this.argazkia);
+			json.put("file", jsFitxategia);
 		}
 
 		if (this.latitudea != 0 || this.longitudea != 0)
 		{
 			JSONObject gps = new JSONObject();
-			gps.put("latitudea", this.latitudea);
-			gps.put("longitudea", this.longitudea);
-			gps.put("zehaztasuna", this.zehaztasuna);
+			gps.put("latitude", this.latitudea);
+			gps.put("longitude", this.longitudea);
+			gps.put("accuracy", this.zehaztasuna);
 			json.put("gps", gps);
 		}
 
 		if (this.herria != null && !this.herria.equals(""))
-			json.put("herria", this.herria);
-		if (this.izena != null && !this.izena.equals(""))
-			json.put("izena", this.izena);
-		if (this.telefonoa != null && !this.telefonoa.equals(""))
-			json.put("telefonoa", this.telefonoa);
-		if (this.posta != null && !this.posta.equals(""))
-			json.put("posta", this.posta);
-		if (this.ohartarazi)
-			json.put("ohartarazi", this.ohartarazi);
+		{
+			JSONObject helbidea = new JSONObject();
+			helbidea.put("locality", this.herria);
+			json.put("address", helbidea);
+		}
+
+		JSONObject erabiltzailea = new JSONObject();
+		if (!this.anonimoa)
+		{
+			if (this.izena != null && !this.izena.equals(""))
+				erabiltzailea.put("fullname", this.izena);
+			if (this.telefonoa != null && !this.telefonoa.equals(""))
+				erabiltzailea.put("phone", this.telefonoa);
+			if (this.posta != null && !this.posta.equals(""))
+				erabiltzailea.put("mail", this.posta);
+
+			erabiltzailea.put("notify", this.ohartarazi);
+		}
+		else
+			erabiltzailea.put("anonymous", true);
 		if (this.hizkuntza != null && !this.hizkuntza.equals(""))
-			json.put("hizkuntza", this.hizkuntza);
+			erabiltzailea.put("language", this.hizkuntza);
+		json.put("user", erabiltzailea);
+
 		if (this.oharrak != null && !this.oharrak.equals(""))
-			json.put("oharrak", this.oharrak);
+			json.put("comments", this.oharrak);
 
 		return json.toString();
 	}

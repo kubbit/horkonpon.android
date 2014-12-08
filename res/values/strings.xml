@@ -29,8 +29,10 @@
 	<string name="button_negative">Ez</string>
 	<string name="error_http">Bidaltzerakoan errorea. Beranduago saiatu berriz ere.</string>
 	<string name="error_no_internet">Internet-erako konexioa beharrezkoa da gertakaria bidaltzeko.</string>
+	<string name="error_while_loading_picture">Errorea argazkia gordetzerakoan. Diskoan leku librea dagoelaz ziurtatu eta berriz ere saiatu.</string>
 	<string name="validate_gertakaria_no_gps">Kokapena ezin izan da ezarri. GPS-a aktibo dagoelaz ziurtatu</string>
 	<string name="validate_gertakaria_no_data">Argazkia edo oharra beharrezkoa da</string>
+	<string name="message_contact_info">Zure kontaktu datuak betetzea gomendatzen dugu. Behar izanez gero, udaletxea zurekin harremanetan jartzeko izango duen modu bakarra da.\n\nDatuak aplikazioaren ezarpenetatik bete ditzakezu.\n\nMezu hau behin bakarrik agertuko da.</string>
 	<string name="disclaimer">Lege-oharra</string>
 	<string name="disclaimer_text"><![CDATA[
 <html>

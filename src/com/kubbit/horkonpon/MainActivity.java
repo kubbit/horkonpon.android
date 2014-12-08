@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -23,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -65,7 +65,7 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 
 		this.refresh();
 
-		//this.checkFirstTime();
+		this.checkFirstTime();
 	}
 
 	public void refresh()
@@ -90,23 +90,25 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 	}
 
 	/*
-	 * Check if it is the first time this app is run and open preferences
-	 * after a delay in that case
+	 * Show a message with info only the first time the application is run
 	 */
 	private void checkFirstTime()
 	{
-		if (!Preferences.getFirstTime())
+		if (Preferences.getMessageShown())
 			return;
 
-		Handler handler = new Handler();
-
-		handler.postDelayed(new Runnable()
+		try
 		{
-			public void run()
-			{
-				showPreferences();
-			}
-		}, Constants.PREFERENCES_DIALOG_DELAY);
+			// Don't show message if contact info has already been set
+			if (Preferences.hasContactInfo())
+				return;
+
+			Utils.showMessage(context, getString(R.string.message_contact_info));
+		}
+		finally
+		{
+			Preferences.setMessageShown();
+		}
 	}
 
 	private void showPreferences()
@@ -178,6 +180,7 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 		this.gertakaria.setZehaztasuna(this.location.getAccuracy());
 		this.gertakaria.setHerria(this.location.getLocality());
 
+		this.gertakaria.setAnonimoa(Preferences.getAnonymous());
 		if (!Preferences.getAnonymous())
 		{
 			this.gertakaria.setIzena(Preferences.getFullName());
@@ -253,12 +256,17 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 
 		try
 		{
-			NameValuePair param = new BasicNameValuePair("datuak", this.gertakaria.asJSON(this.context));
+			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+
+			params.add(new BasicNameValuePair("data", this.gertakaria.asJSON(this.context)));
+			params.add(new BasicNameValuePair("key", Constants.API_KEY));
+
 			HttpPost httpPost = new HttpPost(this.context, Constants.API_URL);
 			httpPost.onResult = this;
 
 			this.httpPostWait = ProgressDialog.show(this.context, null, getString(R.string.send_progress), true);
-			httpPost.execute(param);
+
+			httpPost.execute(params.toArray(new NameValuePair[params.size()]));
 		}
 		catch (Exception e)
 		{
@@ -282,10 +290,10 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 
 			JSONObject jsResult = new JSONObject(result);
 
-			Log.info(jsResult.getString("mezua"));
-			Utils.showMessage(this.context, jsResult.getString("mezua"));
+			Log.info(jsResult.getString("message"));
+			Utils.showMessage(this.context, jsResult.getString("message"));
 
-			if (jsResult.getInt("kodea") >= 0)
+			if (jsResult.getInt("status") == 0)
 				this.clear();
 		}
 		catch (JSONException e)
@@ -293,6 +301,20 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 			Log.debug(e.getMessage());
 			Utils.showMessage(this.context, getString(R.string.error_http));
 		}
+	}
+
+	private void checkLocation(Boolean force)
+	{
+		if (this.location == null)
+			return;
+
+		if (!force && this.location.isSet() && !this.gertakaria.getArgazkia().equals(""))
+			return;
+
+		if (this.firstStart && this.location.getStatus() == Location.Status.GPS_DISABLED)
+			this.showActivateGPS();
+
+		this.location.checkPosition();
 	}
 
 	private final Location.Changed Location_Changed = new Location.Changed()
@@ -327,13 +349,7 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 	{
 		super.onStart();
 
-		if (this.location == null)
-			return;
-
-		if (this.firstStart && this.location.getStatus() == Location.Status.GPS_DISABLED)
-			this.showActivateGPS();
-
-		this.location.checkPosition();
+		this.checkLocation(false);
 
 		this.firstStart = false;
 	}
@@ -369,19 +385,22 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 			switch (requestCode)
 			{
 				case TAKE_PICTURE:
-					Image img = new Image(this.picture);
-					img.rotateToOrigin();
-
-					this.ivPhoto.setImageBitmap(img.getBitmap());
-					this.ivPhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
 					try
 					{
+						Image img = new Image(this.picture);
+						img.rotateToOrigin();
+
+						this.ivPhoto.setImageBitmap(img.getBitmap());
+						this.ivPhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
 						this.gertakaria.setArgazkia(img.getJPG(), this.picture.getName());
+
+						this.checkLocation(true);
 					}
 					catch (Exception e)
 					{
 						Log.debug(e.getMessage());
+						Toast.makeText(this.context, R.string.error_while_loading_picture, Toast.LENGTH_LONG).show();
 					}
 
 					break;

@@ -21,6 +21,7 @@ It can be integrated with third party software using `JSON`. This is an example 
 ```json
 {
 	"version": 2,
+	"date": "2014-09-22T08:35:47",
 	"gps":
 	{
 		"latitude": 43.321259,
@@ -51,8 +52,9 @@ It can be integrated with third party software using `JSON`. This is an example 
 And this is an example response:
 ```json
 {
+	"version": 2,
 	"status": 0,
-	"code: 46401",
+	"code": 46401,
 	"message": "Thanks, your report will be investigated shortly."
 }
 ```

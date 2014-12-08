@@ -29,8 +29,10 @@
 	<string name="disclaimer">Aviso legal</string>
 	<string name="error_http">Error durante el envío. Vuelva a intentarlo más adelante.</string>
 	<string name="error_no_internet">Es necesario tener conexión a Internet para enviar la incidencia.</string>
+	<string name="error_while_loading_picture">Error al guardar la foto. Asegurese de tener espacio suficiente en disco y vuelva a intentarlo.</string>
 	<string name="validate_gertakaria_no_gps">No se ha podido establecer la posición. Compruebe que el GPS está activado</string>
 	<string name="validate_gertakaria_no_data">Es necesario enviar una foto o un comentario</string>
+	<string name="message_contact_info">Recomendamos introducir tus datos de contacto. Es la única manera que tendrá el ayuntamiento de ponerse en contacto contigo para completar la información en caso de ser necesario.\n\nPuedes rellenarlos desde las preferencias de la aplicación.\n\nEste mensaje sólo se mostrará esta vez.</string>
 	<string name="disclaimer_text"><![CDATA[
 <html>
 	<head>

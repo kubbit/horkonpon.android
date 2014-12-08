@@ -1,0 +1,12 @@
+================================================================================
+  Version 1.2
+================================================================================
+- Improved positioning algorithm
+- Added message recommending filling contact details
+- Updated to HorKonpon API version 2
+- Minor changes and improvements
+
+================================================================================
+  Version 1.0
+================================================================================
+- First published version
