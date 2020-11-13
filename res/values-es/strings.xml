@@ -1,79 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="picture">Foto</string>
+	<string name="picture_add">Añadir nueva foto</string>
 	<string name="no_gps">GPS inactivo</string>
-	<string name="searching_location">Buscando posición...</string>
+	<string name="searching_location">Buscando posición…</string>
 	<string name="location_set">Posición establecida</string>
-	<string name="fullname">Nombre</string>
+	<string name="navigation_drawer_open">Panel de navegación abierto</string>
+	<string name="navigation_drawer_close">Panel de navegación cerrado</string>
+	<!--string name="fullname">Nombre</string>
 	<string name="phone">Teléfono</string>
-	<string name="mail">Correo electrónico</string>
+	<string name="mail">Correo electrónico</string-->
 	<string name="comment">Observaciones</string>
+	<string name="type_message">Escribe un mensaje</string>
 	<string name="send">Enviar</string>
+	<string name="last_updated">Última modificación</string>
+	<string name="last_messages">Mensajes recientes</string>
+	<plurals name="new_messages">
+		<item quantity="one">Tienes %d mensaje nuevo</item>
+		<item quantity="other">Tienes %d nuevos mensajes</item>
+	</plurals>
 	<string name="preferences">Preferencias</string>
-	<string name="contact_info">Información de contacto</string>
+	<!--string name="contact_info">Información de contacto</string>
 	<string name="ohartarazi">Notificar</string>
 	<string name="ohartarazi_deskribapena">Solicitar al ayuntamiento notificaciones sobre cambios de estado</string>
 	<string name="anonymous">Envío anónimo</string>
-	<string name="anonymous_deskribapena">Al desactivar esta casilla acepta las condiciones de uso de sus datos tal y como aparece en el apartado de Aviso Legal</string>
-	<string name="send_progress">Enviando...</string>
+	<string name="anonymous_deskribapena">Al desactivar esta casilla acepta las condiciones de uso de sus datos tal y como aparece en el apartado de Aviso Legal</string-->
+	<string name="sync_progress">Sincronizando…</string>
 	<string name="language">Idioma</string>
 	<string-array name="languageEntries">
 		<item name="system_default_language">Idioma del sistema</item>
+		<item>English</item>
 		<item>Español</item>
 		<item>Euskera</item>
 	</string-array>
-	<string name="sent">Enviado</string>
+	<!--string name="preferences_show_advanced">Mostrar avanzadas</string>
+	<string name="preferences_advanced">Preferencias avanzadas</string>
+	<string name="preferences_api_url">Dirección del servidor</string>
+	<string name="preferences_api_user">Usuario</string>
+	<string name="preferences_api_password">Contraseña</string-->
 	<string name="gps_disabled">El GPS no está activado. ¿Desea abrir el panel de preferencias para activarlo?</string>
 	<string name="button_positive">Si</string>
 	<string name="button_negative">No</string>
 	<string name="disclaimer">Aviso legal</string>
-	<string name="error_http">Error durante el envío. Vuelva a intentarlo más adelante.</string>
-	<string name="error_no_internet">Es necesario tener conexión a Internet para enviar la incidencia.</string>
 	<string name="error_while_loading_picture">Error al guardar la foto. Asegurese de tener espacio suficiente en disco y vuelva a intentarlo.</string>
 	<string name="validate_gertakaria_no_gps">No se ha podido establecer la posición. Compruebe que el GPS está activado</string>
 	<string name="validate_gertakaria_no_data">Es necesario enviar una foto o un comentario</string>
-	<string name="message_contact_info">Recomendamos introducir tus datos de contacto. Es la única manera que tendrá el ayuntamiento de ponerse en contacto contigo para completar la información en caso de ser necesario.\n\nPuedes rellenarlos desde las preferencias de la aplicación.\n\nEste mensaje sólo se mostrará esta vez.</string>
-	<string name="disclaimer_text"><![CDATA[
-<html>
-	<head>
-		<style type="text/css">
-body
-{
-	font-size: smaller;
-}
-p
-{
-	text-align: justify;
-	text-indent: 1em;
-}
-div:first-of-type
-{
-	margin-bottom: 4em;
-}
-		</style>
-	</head>
-	<body>
-		<div>
-			<p><b>PRIVACIDAD</b></p>
-			<p>Los Datos Personales aportados son recogidos bajo el consentimiento del usuario y serán objeto de tratamiento automatizado e incorporados al Sistema de Información de Kubbit Information Technology S.L.</p>
-			<p>El uso de dichos datos se restringirá exclusivamente al ámbito de la gestión de la aplicación, pudiendo procederse a su cesión o comunicación a otras Administraciones Públicas o terceros en los supuestos previstos en la Ley Orgánica 15/1999 de 13 de diciembre de Protección de Datos de Carácter Personal.</p>
-			<p>Los interesados podrán ejercitar los derechos de acceso, cancelación, rectificación y oposición a través del envío de un correo electrónico al buzón <i><a href="mailto:arco@kubbit.com">arco@kubbit.com</a></i> con el asunto "BAJA HORKONPON".</p>
-		</div>
-		<div>
-			<p><b>AVISO LEGAL</b></p>
-			<p>Los derechos de propiedad intelectual de la aplicación "Horkonpon", y de los distintos elementos en él contenidos son titularidad de KUBBIT INFORMATION TECHNOLOGY S.L. (en adelante KUBBIT). "Horkonpon" es una aplicación publicada bajo "GNU Licencia Pública General versión 2 (GPLv2)". Puede encontrarse toda la información en relación a dicha licencia en el siguiente dirección:<br />
-			<a href="http://www.gnu.org/licenses/gpl-2.0.html">http://www.gnu.org/licenses/gpl-2.0.html</a></p>
-			<p>KUBBIT se reserva la facultad de efectuar, en cualquier momento y sin necesidad de previo aviso, modificaciones y actualizaciones sobre la aplicación.</p>
-			<p>El contenido enviado a través de la aplicación es de exclusiva responsabilidad de quien lo envía. KUBBIT no responderá de ninguna consecuencia, daño o perjuicio que pudieran derivarse del envío de información contrario a la ley, con excepción de todas aquellas actuaciones que resulten de la aplicación de las disposiciones legales a las que deba someterse en el estricto ejercicio de sus competencias.</p>
-		</div>
-	</body>
-</html>
-	]]></string>
-	<string name="about">Acerca de...</string>
-	<string name="about_subsidized">Proyecto subvencionado por</string>
-	<string name="about_gipuzkoako_foru_aldundia"><b>Diputación Foral de Gipuzkoa</b>\n<i>http://www.gipuzkoa.net</i></string>
-	<string name="about_errenteria"><b>Ayuntamiento de Errenteria</b>\n<i>http://www.errenteria.net</i></string>
-	<string name="about_hernani"><b>Ayuntamiento de Hernani</b>\n<i>http://www.hernani.net</i></string>
-	<string name="about_pasaia"><b>Ayuntamiento de Pasaia</b>\n<i>http://www.pasaia.net</i></string>
+	<string name="list_title">Enviados</string>
+	<!--string name="anonymous_confirm_title">Privacidad</string-->
+	<string name="about">Acerca de…</string>
+	<string name="about_subsidized">Subvencionado por (versión 1.0)</string>
+	<string name="about_gipuzkoako_foru_aldundia"><b>Diputación Foral de Gipuzkoa</b>\n<i>https://www.gipuzkoa.eus</i></string>
+	<string name="about_errenteria"><b>Ayuntamiento de Errenteria</b>\n<i>https://errenteria.eus</i></string>
+	<string name="about_hernani"><b>Ayuntamiento de Hernani</b>\n<i>https://www.hernani.eus</i></string>
+	<string name="about_pasaia"><b>Ayuntamiento de Pasaia</b>\n<i>https://www.pasaia.eus</i></string>
 	<string name="about_developed"><b>Desarrollado por</b></string>
 </resources>

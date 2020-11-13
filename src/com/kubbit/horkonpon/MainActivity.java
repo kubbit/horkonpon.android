@@ -1,71 +1,58 @@
 package com.kubbit.horkonpon;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.core.app.ActivityCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.util.ArrayList;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import com.kubbit.horkonpon.screens.*;
 import com.kubbit.location.Location;
+import com.kubbit.media.Camera;
 import com.kubbit.media.Image;
-import com.kubbit.net.HttpPost;
-import com.kubbit.net.Net;
 import com.kubbit.utils.Log;
 import com.kubbit.utils.Utils;
 
-public class MainActivity extends ActionBarActivity implements HttpPost.httpPostResult, SharedPreferences.OnSharedPreferenceChangeListener
+public class MainActivity extends Activity implements com.kubbit.location.Location.Changed, ActivityCompat.OnRequestPermissionsResultCallback
 {
-	final int TAKE_PICTURE = 2;
-	Gertakaria gertakaria = new Gertakaria();
+	protected Camera camera;
+
+	Issue issue = null;
 	Location location = null;
-	File picture;
-	Context context;
 	protected ImageView ivPhoto;
 	protected EditText edComment;
-	protected Button btSend;
-	ProgressDialog httpPostWait;
+	protected FloatingActionButton btSend;
 	boolean firstStart = true;
+
+	@Override
+	public Integer drawerId()
+	{
+		return R.id.drawer_layout;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 
-		this.context = this;
-
-		Preferences.load(this.context);
-		// check for language preference change
-		Preferences.settings.registerOnSharedPreferenceChangeListener(this);
 		// set language for displaying from preferences
-		Utils.setLanguage(this, Preferences.getLanguage());
+		Utils.setLanguage(this, Settings.getLanguage());
 
 		this.refresh();
 
-		this.checkFirstTime();
+		// if application gets killed temporary files are not deleted, so empty them at start
+		Utils.emptyTempDir(this.context);
+
+		this.clear();
 	}
 
 	public void refresh()
@@ -74,10 +61,10 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 
 		this.ivPhoto = (ImageView)findViewById(R.id.img);
 		this.edComment = (EditText)findViewById(R.id.comment);
-		this.btSend = (Button)findViewById(R.id.send);
+		this.btSend = (FloatingActionButton)findViewById(R.id.send);
 
 		this.location = new Location(this);
-		this.location.onChanged = this.Location_Changed;
+		this.location.onChanged = this;
 	}
 
 	@Override
@@ -89,53 +76,6 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	/*
-	 * Show a message with info only the first time the application is run
-	 */
-	private void checkFirstTime()
-	{
-		if (Preferences.getMessageShown())
-			return;
-
-		try
-		{
-			// Don't show message if contact info has already been set
-			if (Preferences.hasContactInfo())
-				return;
-
-			Utils.showMessage(context, getString(R.string.message_contact_info));
-		}
-		finally
-		{
-			Preferences.setMessageShown();
-		}
-	}
-
-	private void showPreferences()
-	{
-		Intent intent = new Intent(this, Preferences.class);
-		startActivity(intent);
-
-		overridePendingTransition(R.anim.right_slide_in_bounce, R.anim.stay);
-	}
-
-	private void showDisclaimer()
-	{
-		Intent intent = new Intent(this, Disclaimer.class);
-		startActivity(intent);
-
-		// disabled as it slows down webview's page loading until animation is over
-		//overridePendingTransition(R.anim.right_slide_in, R.anim.stay);
-	}
-
-	private void showAbout()
-	{
-		Intent intent = new Intent(this, About.class);
-		startActivity(intent);
-
-		overridePendingTransition(R.anim.right_slide_in, R.anim.stay);
-	}
-
 	private void showActivateGPS()
 	{
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.context);
@@ -145,6 +85,7 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 
 		alertDialogBuilder.setPositiveButton(R.string.button_positive, new DialogInterface.OnClickListener()
 		{
+			@Override
 			public void onClick(DialogInterface dialog, int id)
 			{
 				Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -154,6 +95,7 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 
 		alertDialogBuilder.setNegativeButton(R.string.button_negative, new DialogInterface.OnClickListener()
 		{
+			@Override
 			public void onClick(DialogInterface dialog, int id)
 			{
 				dialog.cancel();
@@ -166,39 +108,56 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 
 	private void takePicture()
 	{
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		this.picture = Utils.getTemporaryFile(this.context, "jpg");
-		Uri tmpFileUri = Uri.fromFile(this.picture);
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, tmpFileUri);
-		startActivityForResult(intent, TAKE_PICTURE);
+		try
+		{
+			this.camera = new Camera(this);
+			this.camera.open();
+		}
+		catch (Exception e)
+		{
+			Log.error(e.getMessage());
+			Toast.makeText(this.context, R.string.error_while_loading_picture, Toast.LENGTH_LONG).show();
+		}
+	}
+
+	private void storeGPSValues()
+	{
+		this.issue.setLatitude(this.location.getLatitude());
+		this.issue.setLongitude(this.location.getLongitude());
+		this.issue.setAccuracy(this.location.getAccuracy());
+		this.issue.setLocality(this.location.getLocality());
 	}
 
 	private void storeValues()
 	{
-		this.gertakaria.setLatitudea(this.location.getLatitude());
-		this.gertakaria.setLongitudea(this.location.getLongitude());
-		this.gertakaria.setZehaztasuna(this.location.getAccuracy());
-		this.gertakaria.setHerria(this.location.getLocality());
+		this.storeGPSValues();
 
-		this.gertakaria.setAnonimoa(Preferences.getAnonymous());
-		if (!Preferences.getAnonymous())
-		{
-			this.gertakaria.setIzena(Preferences.getFullName());
-			this.gertakaria.setTelefonoa(Preferences.getPhone());
-			this.gertakaria.setPosta(Preferences.getMail());
-			this.gertakaria.setOhartarazi(Preferences.getNotify());
-		}
-		else
-		{
-			this.gertakaria.setIzena("");
-			this.gertakaria.setTelefonoa("");
-			this.gertakaria.setPosta("");
-			this.gertakaria.setOhartarazi(false);
-		}
+		this.issue.getMessages().clear();
+		this.issue.addMessage(this.edComment.getText().toString());
+	}
 
-		this.gertakaria.setHizkuntza(Utils.getLanguage(this.context));
+	private void syncIssues()
+	{
+		IssueList.getInstance(this.context).sync();
+	}
 
-		this.gertakaria.setOharrak(this.edComment.getText().toString());
+	private void send()
+	{
+		this.storeValues();
+
+		if (!this.issue.validate())
+			return;
+
+		this.issue.setStatus(Constants.IssueStatus.NEW);
+		this.issue.save();
+
+		Toast.makeText(this.context, R.string.sync_progress, Toast.LENGTH_SHORT).show();
+
+		// open issue visualization activity
+		IssueList.getInstance(this.context).setSelected(this.issue);
+		this.showScreen(IssueShow.class);
+
+		this.clear();
 	}
 
 	private void clear()
@@ -208,22 +167,19 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 
 		this.edComment.setText("");
 
-		this.gertakaria.clear();
+		this.issue = new Issue(this.context);
 	}
 
-	public void preferencesOnClick(MenuItem item)
+	public void menuItemOnClick(MenuItem item)
 	{
-		this.showPreferences();
-	}
-
-	public void disclaimerOnClick(MenuItem item)
-	{
-		this.showDisclaimer();
-	}
-
-	public void aboutOnClick(MenuItem item)
-	{
-		this.showAbout();
+		if (item.getItemId() == R.id.action_list)
+			this.showScreen(IssueBrowse.class);
+		else if (item.getItemId() == R.id.action_preferences)
+			this.showScreen(Preferences.class, R.anim.right_slide_in_bounce);
+		else if (item.getItemId() == R.id.action_disclaimer)
+			this.showScreen(Disclaimer.class);
+		else if (item.getItemId() == R.id.action_about)
+			this.showScreen(About.class);
 	}
 
 	public void imgOnClick(View v)
@@ -235,72 +191,11 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 	{
 		this.btSend.setEnabled(false);
 
-		// hide virtual keyboard
-		InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-		inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		this.hideKeyboard();
 
-		this.storeValues();
+		this.send();
 
-		if (!this.gertakaria.validate(this.context))
-		{
-			this.btSend.setEnabled(true);
-			return;
-		}
-
-		if (!Net.isNetworkAvailable(this.context))
-		{
-			Toast.makeText(this.context, R.string.error_no_internet, Toast.LENGTH_LONG).show();
-			this.btSend.setEnabled(true);
-			return;
-		}
-
-		try
-		{
-			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-
-			params.add(new BasicNameValuePair("data", this.gertakaria.asJSON(this.context)));
-			params.add(new BasicNameValuePair("key", Constants.API_KEY));
-
-			HttpPost httpPost = new HttpPost(this.context, Constants.API_URL);
-			httpPost.onResult = this;
-
-			this.httpPostWait = ProgressDialog.show(this.context, null, getString(R.string.send_progress), true);
-
-			httpPost.execute(params.toArray(new NameValuePair[params.size()]));
-		}
-		catch (Exception e)
-		{
-			Log.debug(e.getMessage());
-
-			this.httpPostWait.dismiss();
-			this.btSend.setEnabled(true);
-
-			Utils.showMessage(this.context, e.getLocalizedMessage());
-		}
-	}
-
-	public void onHttpPostResult(String result)
-	{
-		this.httpPostWait.dismiss();
 		this.btSend.setEnabled(true);
-
-		try
-		{
-			Log.debug(result);
-
-			JSONObject jsResult = new JSONObject(result);
-
-			Log.info(jsResult.getString("message"));
-			Utils.showMessage(this.context, jsResult.getString("message"));
-
-			if (jsResult.getInt("status") == 0)
-				this.clear();
-		}
-		catch (JSONException e)
-		{
-			Log.debug(e.getMessage());
-			Utils.showMessage(this.context, getString(R.string.error_http));
-		}
 	}
 
 	private void checkLocation(Boolean force)
@@ -308,41 +203,67 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 		if (this.location == null)
 			return;
 
-		if (!force && this.location.isSet() && !this.gertakaria.getArgazkia().equals(""))
+		if (!force && this.location.isSet() && this.issue.hasPhoto())
 			return;
 
 		if (this.firstStart && this.location.getStatus() == Location.Status.GPS_DISABLED)
 			this.showActivateGPS();
 
+		if (!Utils.checkPermission(this.context, android.Manifest.permission.ACCESS_FINE_LOCATION))
+		{
+			ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, Constants.AppPermission.LOCATION);
+			return;
+		}
+
 		this.location.checkPosition();
 	}
 
-	private final Location.Changed Location_Changed = new Location.Changed()
+	@Override
+	public void onLocationChanged(Object sender)
 	{
-		public void onLocationChanged(Object sender)
+		String title = getString(R.string.validate_gertakaria_no_gps);
+
+		switch (location.getStatus())
 		{
-			String title = getString(R.string.validate_gertakaria_no_gps);
-
-			switch (location.getStatus())
-			{
-				case Location.Status.GPS_DISABLED:
-					title = getString(R.string.no_gps);
-					break;
-				case Location.Status.ADDRESS_SET:
-					title = location.getLocality();
-					break;
-				case Location.Status.LOCATION_SET:
-					title = getString(R.string.location_set);
-					break;
-				case Location.Status.SEARCHING_POSITION:
-				case Location.Status.SEARCHING_ADDRESS:
-					title = getString(R.string.searching_location);
-					break;
-			}
-
-			getSupportActionBar().setTitle(title);
+			case Location.Status.GPS_DISABLED:
+				title = getString(R.string.no_gps);
+				break;
+			case Location.Status.ADDRESS_SET:
+				title = location.getLocality();
+				break;
+			case Location.Status.LOCATION_SET:
+				title = getString(R.string.location_set);
+				break;
+			case Location.Status.SEARCHING_POSITION:
+			case Location.Status.SEARCHING_ADDRESS:
+				title = getString(R.string.searching_location);
+				break;
 		}
-	};
+
+		this.getToolBar().setTitle(title);
+
+		this.storeGPSValues();
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
+	{
+		// check for request cancelled
+		if (grantResults.length == 0)
+			return;
+
+		switch (requestCode)
+		{
+			case Constants.AppPermission.LOCATION:
+			{
+				if (grantResults[0] != PackageManager.PERMISSION_GRANTED)
+					return;
+
+				this.location.checkPosition();
+				break;
+			}
+		}
+	}
 
 	@Override
 	protected void onStart()
@@ -350,6 +271,8 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 		super.onStart();
 
 		this.checkLocation(false);
+
+		this.syncIssues();
 
 		this.firstStart = false;
 	}
@@ -364,19 +287,18 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 	}
 
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
+	protected void onDestroy()
 	{
-		if (key.equals(Preferences.KEY_PREF_LANGUAGE))
-		{
-			Utils.setLanguage(this, Preferences.getLanguage(), true);
+		this.clear();
 
-			this.refresh();
-		}
+		super.onDestroy();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
+		super.onActivityResult(requestCode, resultCode, data);
+
 		try
 		{
 			if (resultCode != Activity.RESULT_OK)
@@ -384,22 +306,24 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 
 			switch (requestCode)
 			{
-				case TAKE_PICTURE:
+				case Constants.ActivityResultCode.TAKE_PICTURE:
 					try
 					{
-						Image img = new Image(this.picture);
-						img.rotateToOrigin();
+						Image img = this.camera.getImage();
+						img.loadScaledBitmap(Constants.IMAGE_MIN_SIZE);
 
 						this.ivPhoto.setImageBitmap(img.getBitmap());
 						this.ivPhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-						this.gertakaria.setArgazkia(img.getJPG(), this.picture.getName());
+						DBFile file = new DBFile(this.context);
+						img.writeJPG(file.getFile(), Constants.IMAGE_QUALITY);
+						this.issue.setImage(file);
 
 						this.checkLocation(true);
 					}
 					catch (Exception e)
 					{
-						Log.debug(e.getMessage());
+						Log.error(e.getMessage());
 						Toast.makeText(this.context, R.string.error_while_loading_picture, Toast.LENGTH_LONG).show();
 					}
 
@@ -408,12 +332,11 @@ public class MainActivity extends ActionBarActivity implements HttpPost.httpPost
 		}
 		finally
 		{
-			// always delete temporary file
-			if (this.picture != null && this.picture.exists())
-			{
-				this.picture.delete();
-				this.picture = null;
-			}
+			if (this.camera == null)
+				return;
+
+			this.camera.clear();
+			this.camera = null;
 		}
 	}
 }

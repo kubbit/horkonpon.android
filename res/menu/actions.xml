@@ -2,20 +2,40 @@
 <menu
  xmlns:android="http://schemas.android.com/apk/res/android"
  xmlns:horkonpon="http://schemas.android.com/apk/res-auto">
-	<item
-	 android:id="@+id/action_disclaimer"
-	 android:title="@string/disclaimer"
-	 horkonpon:showAsAction="never"
-	 android:onClick="disclaimerOnClick" />
-	<item
-	 android:id="@+id/action_about"
-	 android:title="@string/about"
-	 horkonpon:showAsAction="never"
-	 android:onClick="aboutOnClick" />
-	<item
-	 android:id="@+id/action_preferences"
-	 android:icon="@drawable/ic_action_settings"
-	 android:title="@string/preferences"
-	 horkonpon:showAsAction="ifRoom"
-	 android:onClick="preferencesOnClick" />
+	<group
+	 android:id="@+id/action_group_menu"
+	 android:checkableBehavior="none">
+		<item
+		 android:id="@+id/action_list"
+		 android:title="@string/list_title"
+		 android:icon="@drawable/ic_view_list_white"
+		 horkonpon:showAsAction="ifRoom"
+		 android:onClick="menuItemOnClick" />
+	</group>
+	<group
+	 android:id="@+id/action_group_settings"
+	 android:checkableBehavior="none">
+		<item
+		 android:id="@+id/action_preferences"
+		 android:icon="@drawable/ic_settings_white"
+		 android:title="@string/preferences"
+		 horkonpon:showAsAction="never"
+		 android:onClick="menuItemOnClick" />
+	</group>
+	<group
+	 android:id="@+id/action_group_info"
+	 android:checkableBehavior="none">
+		<item
+		 android:id="@+id/action_disclaimer"
+		 android:title="@string/disclaimer"
+		 android:icon="@drawable/ic_description_white"
+		 horkonpon:showAsAction="never"
+		 android:onClick="menuItemOnClick" />
+		<item
+		 android:id="@+id/action_about"
+		 android:title="@string/about"
+		 android:icon="@drawable/ic_help_white"
+		 horkonpon:showAsAction="never"
+		 android:onClick="menuItemOnClick" />
+	</group>
 </menu>

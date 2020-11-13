@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory
+	<!--PreferenceCategory
 	 android:title="@string/contact_info"
 	 android:key="pref_contact_info">
 		<CheckBoxPreference
 		 android:key="pref_anomymous"
 		 android:title="@string/anonymous"
-		 android:summary="@string/anonymous_deskribapena"
 		 android:disableDependentsState="true"
 		 android:defaultValue="true" />
 		<com.kubbit.preference.EditTextPreference
@@ -24,20 +23,41 @@
 		 android:inputType="textEmailAddress"
 		 android:title="@string/mail"
 		 android:dependency="pref_anomymous" />
-	</PreferenceCategory>
+	</PreferenceCategory-->
 	<PreferenceCategory
 	 android:title="@string/preferences">
-		<CheckBoxPreference
+		<!--CheckBoxPreference
 		 android:key="pref_notify"
 		 android:title="@string/ohartarazi"
 		 android:summary="@string/ohartarazi_deskribapena"
 		 android:defaultValue="false"
-		 android:dependency="pref_anomymous" />
+		 android:dependency="pref_anomymous" /-->
 		<com.kubbit.preference.ListPreference
 		 android:key="pref_language"
 		 android:title="@string/language"
 		 android:defaultValue=""
 		 android:entries="@array/languageEntries"
 		 android:entryValues="@array/languageValues" />
+		<!--CheckBoxPreference
+		 android:key="pref_advanced"
+		 android:title="@string/preferences_show_advanced"
+		 android:defaultValue="false" /-->
 	</PreferenceCategory>
+	<!--PreferenceCategory
+	 android:title="@string/preferences_advanced">
+		<com.kubbit.preference.EditTextPreference
+		 android:key="pref_api_url"
+		 android:inputType="textUri"
+		 android:title="@string/preferences_api_url"
+		 android:dependency="pref_advanced" />
+		<com.kubbit.preference.EditTextPreference
+		 android:key="pref_api_auth_user"
+		 android:title="@string/preferences_api_user"
+		 android:dependency="pref_advanced" />
+		<com.kubbit.preference.EditTextPreference
+		 android:key="pref_api_auth_pwd"
+		 android:inputType="textPassword"
+		 android:title="@string/preferences_api_password"
+		 android:dependency="pref_advanced" />
+	</PreferenceCategory-->
 </PreferenceScreen>

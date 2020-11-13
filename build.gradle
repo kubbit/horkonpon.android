@@ -1,0 +1,120 @@
+buildscript
+{
+	repositories
+	{
+		google()
+		jcenter()
+	}
+
+	dependencies
+	{
+		classpath 'com.android.tools.build:gradle:4.1.0'
+	}
+}
+
+allprojects
+{
+	gradle.projectsEvaluated
+	{
+		tasks.withType(JavaCompile)
+		{
+			options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
+		}
+	} 
+
+	repositories
+	{
+		google()
+		jcenter()
+		maven
+		{
+			url "https://maven.google.com"
+		}
+	}
+}
+
+apply plugin: 'com.android.application'
+
+task versionInfo(type:Exec) \
+{
+	commandLine 'git describe --always'.split()
+	ext.versionfile = new File('res/raw/version.properties')
+	standardOutput = new ByteArrayOutputStream()
+
+	doLast
+	{
+		versionfile.text = 'revision=' + standardOutput.toString()
+	}
+}
+
+android
+{
+	compileSdkVersion 29
+	buildToolsVersion "29.0.2"
+
+	defaultConfig
+	{
+		minSdkVersion 14
+		targetSdkVersion 29
+		versionCode 9
+		versionName "2.0"
+		multiDexEnabled true
+	}
+
+	lintOptions
+	{
+		checkReleaseBuilds false
+		abortOnError false
+	}
+
+	signingConfigs
+	{
+		release
+	}
+	buildTypes
+	{
+		release
+		{
+//			shrinkResources true
+//			minifyEnabled true
+		}
+		debug
+		{
+			debuggable true
+		}
+	}
+
+	File signFile = rootProject.file('sign.properties')
+	if (signFile.exists())
+	{
+		Properties p = new Properties()
+		p.load(new FileInputStream(signFile))
+
+		android.signingConfigs.release.keyAlias = p.keyAlias
+		android.signingConfigs.release.storeFile = file(p.keyStore)
+		android.signingConfigs.release.keyPassword = p.keyPassword
+		android.signingConfigs.release.storePassword = p.storePassword
+
+		buildTypes.release.signingConfig android.signingConfigs.release
+	}
+
+	sourceSets
+	{
+		main
+		{
+			manifest.srcFile 'AndroidManifest.xml'
+			java.srcDirs = ['src']
+			res.srcDirs = ['res']
+		}
+	}
+	dependencies
+	{
+		implementation "androidx.legacy:legacy-support-v4:1.0.0"
+		implementation "androidx.appcompat:appcompat:1.2.0"
+		implementation "com.google.android.material:material:1.2.1"
+		implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+		implementation "androidx.exifinterface:exifinterface:1.3.1"
+	}
+
+	preBuild.dependsOn versionInfo
+}

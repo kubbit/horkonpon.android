@@ -10,6 +10,7 @@ import java.util.Date;
 
 import com.kubbit.net.Net;
 import com.kubbit.utils.Timer;
+import com.kubbit.utils.Utils;
 
 public class Location implements LocationListener, Geocoder.addressSet
 {
@@ -29,7 +30,8 @@ public class Location implements LocationListener, Geocoder.addressSet
 	private static final float UPDATE_DISTANCE = 1 / 4;
 	private static final int NEGLIGIBLE_DISTANCE = 5;
 	private static final int MIN_ATTEMPTS = 3;
-	private static final int GPS_TIMEOUT = 60 * 1000;
+	private static final int MAX_ATTEMPTS = 25;
+	private static final int GPS_TIMEOUT = 30 * 1000;
 	private static final int MIN_LOCATION_REFRESH_TIME = 30 * 1000;
 
 	private final Context _context;
@@ -37,6 +39,7 @@ public class Location implements LocationListener, Geocoder.addressSet
 	private Address address = null;
 	private boolean singleCall;
 	private boolean active = false;
+	private int counter;
 	private int attempt;
 	private Date timestamp;
 
@@ -150,11 +153,19 @@ public class Location implements LocationListener, Geocoder.addressSet
 		if (this.active || !locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
 			return false;
 
+		this.counter = 0;
 		this.attempt = 0;
 		this.active = true;
 		this.location = null;
 		this.singleCall = singleCall;
+
+		if (!Utils.checkPermission(this._context, android.Manifest.permission.ACCESS_FINE_LOCATION))
+			return false;
+
 		this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, UPDATE_FREQUENCY, UPDATE_DISTANCE, this);
+
+		if (Utils.checkPermission(this._context, android.Manifest.permission.ACCESS_COARSE_LOCATION))
+			this.locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATE_FREQUENCY, UPDATE_DISTANCE, this);
 
 		this.timer.start();
 
@@ -170,7 +181,9 @@ public class Location implements LocationListener, Geocoder.addressSet
 			return;
 
 		this.active = false;
-		this.locationManager.removeUpdates(this);
+
+		if (Utils.checkPermission(this._context, android.Manifest.permission.ACCESS_FINE_LOCATION))
+			this.locationManager.removeUpdates(this);
 
 		this.timer.stop();
 
@@ -197,16 +210,19 @@ public class Location implements LocationListener, Geocoder.addressSet
 		// restart gps timeout timer countdown
 		this.timer.reset();
 
+		this.counter++;
+
 		// set the new location if there is no previous location
 		// or the new location is more accurate
 		// or the position has changed significantly
 		if (this.location == null
 		 || newLocation.getAccuracy() < this.location.getAccuracy()
-		 || newLocation.distanceTo(this.location) > NEGLIGIBLE_DISTANCE)
+		 || newLocation.distanceTo(this.location) - newLocation.getAccuracy() > NEGLIGIBLE_DISTANCE)
 		{
 			this.attempt = 0;
 
 			this.location = newLocation;
+			this.checkAddress();
 
 			if (this.onChanged != null)
 				onChanged.onLocationChanged(this);
@@ -221,10 +237,11 @@ public class Location implements LocationListener, Geocoder.addressSet
 			if (this.attempt >= MIN_ATTEMPTS)
 			{
 				this.timestamp = new Date();
-				this.checkAddress();
 				this.stop();
 			}
 		}
+		else if (this.singleCall && this.counter >= MAX_ATTEMPTS)
+			this.stop();
 	}
 
 	@Override
@@ -250,12 +267,14 @@ public class Location implements LocationListener, Geocoder.addressSet
 
 	private final Timer.Finish timer_onFinish = new Timer.Finish()
 	{
+		@Override
 		public void onTimerFinish(Object sender)
 		{
 			stop();
 		}
 	};
 
+	@Override
 	public void onAddressSet(Address result)
 	{
 		this.address = result;

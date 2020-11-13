@@ -8,14 +8,34 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.format.DateUtils;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import com.kubbit.horkonpon.R;
 
@@ -40,6 +60,7 @@ public class Utils
 		DisplayMetrics metrics = resources.getDisplayMetrics();
 		Configuration config = resources.getConfiguration();
 		config.locale = new Locale(locale);
+		Locale.setDefault(config.locale);
 
 		resources.updateConfiguration(config, metrics);
 	}
@@ -68,26 +89,73 @@ public class Utils
 		return null;
 	}
 
-	public static File getTemporaryFile(Context context, String ext)
+	public static File getTempDir(Context context)
+	{
+		File tempDir = new File(context.getExternalCacheDir().getPath() + File.separator + "temp");
+		if (!tempDir.exists())
+			tempDir.mkdirs();
+		
+		return tempDir;
+	}
+
+	public static File getTemporaryFile(Context context, String ext) throws IOException
 	{
 		File file = null;
 
 		if (ext != null && !ext.equals(""))
 			ext = "." + ext;
 
-		try
-		{
-			if (android.os.Build.VERSION.SDK_INT < 8)
-				file = File.createTempFile("pic", ext);
-			else
-				file = File.createTempFile("pic", ext, context.getExternalCacheDir());
-		}
-		catch (IOException e)
-		{
-			Log.debug(e.getMessage());
-		}
+		file = File.createTempFile("pic", ext, getTempDir(context));
 
 		return file;
+	}
+
+	public static File renameFile(File file, String newPath)
+	{
+		if (file == null || !file.exists())
+		{
+			Log.error("Cannot rename non existing file.");
+			return null;
+		}
+
+		if (file.getPath().equals(newPath))
+			return file;
+
+		File newFile = new File(newPath);
+		File parentDir = newFile.getParentFile();
+		if (!parentDir.exists())
+			parentDir.mkdirs();
+
+		if (!file.renameTo(newFile))
+			Log.error("Could not rename file.");
+
+		return newFile;
+	}
+
+	public static Uri getFileUri(Context context, File file)
+	{
+		return FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
+	}
+
+	public static void emptyTempDir(Context context)
+	{
+		File tempDir = getTempDir(context);
+
+		deleteSubtree(tempDir);
+	}
+
+	/*
+	 * Deletes a directory and all its contents
+	 *
+	 * @param subtree File or directory to be deleted
+	 */
+	public static void deleteSubtree(File subtree)
+	{
+		if (subtree.isDirectory())
+			for (File child: subtree.listFiles())
+				deleteSubtree(child);
+
+		subtree.delete();
 	}
 
 	/*
@@ -119,6 +187,116 @@ public class Utils
 		return path;
 	}
 
+	public static String toBase64(byte[] file)
+	{
+		return Base64.encodeToString(file, Base64.DEFAULT);
+	}
+	public static String toBase64(File file) throws Exception
+	{
+		byte[] b = readFileToByteArray(file);
+
+		return toBase64(b);
+	}
+	private static byte[] readFileToByteArray(File file) throws Exception
+	{
+		FileInputStream fi = new FileInputStream(file);
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		byte[] b = new byte[1024];
+		int bytesRead;
+
+		while ((bytesRead = fi.read(b)) != -1)
+		{
+			os.write(b, 0, bytesRead);
+		}
+
+		return os.toByteArray();
+	}
+
+	public static void writeToStream(String text, OutputStream stream, String charset) throws IOException
+	{
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stream, charset));
+		try
+		{
+			writer.write(text);
+			writer.flush();
+		}
+		finally
+		{
+			writer.close();
+		}
+	}
+
+	public static String streamToString(InputStream stream, String charset) throws IOException, UnsupportedEncodingException
+	{
+		final int BUF_SIZE = 1024;
+
+		InputStream input = new BufferedInputStream(stream);
+		ByteArrayOutputStream array = new ByteArrayOutputStream();
+
+		byte[] buffer = new byte[BUF_SIZE];
+		int length;
+		while ((length = input.read(buffer)) != -1)
+			array.write(buffer, 0, length);
+
+		return array.toString(charset);
+	}
+
+	public static void writeToFile(byte[] data, File file) throws Exception
+	{
+		// create parent directories if needed
+		File directory = new File(file.getParent());
+		if (!directory.exists())
+			directory.mkdirs();
+
+		FileOutputStream output = new FileOutputStream(file);
+		output.write(data);
+		output.close();
+	}
+
+	/*
+	 * String.Format() with implied US locale
+	 */
+	public static String NLStringFormat(String format, Object... args)
+	{
+		return String.format(Locale.US, format, args);
+	}
+
+	/*
+	 * SimpleDateFormat() with implied US locale
+	 */
+	public static SimpleDateFormat NLSimpleDateFormat(String format)
+	{
+		return new SimpleDateFormat(format, Locale.US);
+	}
+
+	public static Date strToDate(String date, String format)
+	{
+		SimpleDateFormat formatter = NLSimpleDateFormat(format);
+		try
+		{
+			formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+			return formatter.parse(date);
+		}
+		catch (ParseException e)
+		{
+			Log.debug(e.getMessage());
+			return null;
+		}
+	}
+	public static String dateToStr(Date date, String format)
+	{
+		SimpleDateFormat formatter = NLSimpleDateFormat(format);
+
+		formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+		return formatter.format(date);
+	}
+	public static String dateToStrLocalized(Context context, Date date)
+	{
+		return DateUtils.formatDateTime(context, date.getTime(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_TIME);
+	}
+
 	public static String getVersion(Context context)
 	{
 		try
@@ -134,17 +312,33 @@ public class Utils
 
 		return "";
 	}
+	public static Integer getVersionCode(Context context)
+	{
+		try
+		{
+			PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+
+			return pInfo.versionCode;
+		}
+		catch (PackageManager.NameNotFoundException e)
+		{
+			Log.debug(e.getMessage());
+		}
+
+		return null;
+	}
 
 	public static String getOSVersion()
 	{
 		return "Android " + android.os.Build.VERSION.RELEASE;
 	}
 
-	public static Boolean HasPermition(Context context, String permission)
+	public static Boolean checkPermission(Context context, String permission)
 	{
 		PackageManager pm = context.getPackageManager();
 
-		return pm.checkPermission(permission, context.getPackageName()) == PackageManager.PERMISSION_GRANTED;
+		return pm.checkPermission(permission, context.getPackageName()) == PackageManager.PERMISSION_GRANTED
+		 && ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
 	}
 
 	public static void showMessage(Context context, String message)
@@ -155,6 +349,7 @@ public class Utils
 		 .setCancelable(false)
 		 .setPositiveButton("OK", new DialogInterface.OnClickListener()
 		{
+			@Override
 			public void onClick(DialogInterface dialog, int id)
 			{
 				dialog.dismiss();
@@ -162,5 +357,21 @@ public class Utils
 		});
 		AlertDialog alert = builder.create();
 		alert.show();
+	}
+
+	public static Boolean equals(Object obj1, Object obj2)
+	{
+		return obj1 == null ? obj2 == null : obj1.equals(obj2);
+	}
+
+	public static String getRandomString(int byteLength)
+	{
+		SecureRandom rand = new SecureRandom();
+
+		byte[] token = new byte[byteLength];
+		rand.nextBytes(token);
+
+		// hex encoding
+		return new BigInteger(1, token).toString(16);
 	}
 }

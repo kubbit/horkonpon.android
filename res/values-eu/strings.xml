@@ -1,3 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="no_gps">GPS-a inaktibo</string>
+	<string name="searching_location">Kokapena bilatzen…</string>
+	<string name="location_set">Kokapena ezarrita</string>
+	<string name="navigation_drawer_open">Nabigazio panela irekita</string>
+	<string name="navigation_drawer_close">Nabigazio panela itxita</string>
+	<string name="picture">Argazkia</string>
+	<string name="picture_add">Argazki berria gehitu</string>
+	<!--string name="fullname">Izena</string>
+	<string name="phone">Telefonoa</string>
+	<string name="mail">e-Posta</string-->
+	<string name="comment">Oharrak</string>
+	<string name="type_message">Mezua idatzi</string>
+	<string name="send">Bidali</string>
+	<string name="last_updated">Azken aldaketa</string>
+	<string name="last_messages">Mezu berrienak</string>
+	<plurals name="new_messages">
+		<item quantity="one">Mezu berri bat jaso duzu</item>
+		<item quantity="other">%d mezu berri jaso dituzu</item>
+	</plurals>
+	<string name="preferences">Ezarpenak</string>
+	<!--string name="contact_info">Kontakturako informazioa</string>
+	<string name="ohartarazi">Ohartarazi</string>
+	<string name="ohartarazi_deskribapena">Udaletxeari egoera aldaketei buruzko ohartarazpenak bidaltzea eskatu</string>
+	<string name="anonymous">Anonimoki bidali</string>
+	<string name="anonymous_deskribapena">Hau desaktibatzean Lege-oharra atalean agertzen diren zure datuen erabilera baldintzak onartzen dituzu</string-->
+	<string name="sync_progress">Eguneratzen…</string>
+	<string name="language">Hizkuntza</string>
+	<string-array name="languageEntries">
+		<item name="system_default_language">Sistemako hizkuntza</item>
+		<item>English</item>
+		<item>Español</item>
+		<item>Euskera</item>
+	</string-array>
+	<!--string name="preferences_show_advanced">Erakutsi aurreratuak</string>
+	<string name="preferences_advanced">Ezarpen aurreratuak</string>
+	<string name="preferences_api_url">Zerbitzariaren helbidea</string>
+	<string name="preferences_api_user">Erabiltzailea</string>
+	<string name="preferences_api_password">Gakoa</string-->
+	<string name="gps_disabled">GPS-a ez dago gaituta. Ezarpenak ireki eskuz gaitzeko?</string>
+	<string name="button_positive">Bai</string>
+	<string name="button_negative">Ez</string>
+	<string name="error_while_loading_picture">Errorea argazkia gordetzerakoan. Diskoan leku librea dagoelaz ziurtatu eta berriz ere saiatu.</string>
+	<string name="validate_gertakaria_no_gps">Kokapena ezin izan da ezarri. GPS-a aktibo dagoelaz ziurtatu</string>
+	<string name="validate_gertakaria_no_data">Argazkia edo oharra beharrezkoa da</string>
+	<string name="list_title">Bidalitakoak</string>
+	<!--string name="anonymous_confirm_title">Pribatasuna</string-->
+	<string name="disclaimer">Lege-oharra</string>
+	<string name="about">Honi buruz…</string>
+	<string name="about_subsidized">Dirulaguntza (1.0 bertsioa)</string>
+	<string name="about_gipuzkoako_foru_aldundia"><b>Gipuzkoako Foru Aldundia</b>\n<i>https://www.gipuzkoa.eus</i></string>
+	<string name="about_errenteria"><b>Errenteriako Udala</b>\n<i>https://errenteria.eus</i></string>
+	<string name="about_hernani"><b>Hernaniko Udala</b>\n<i>https://www.hernani.eus</i></string>
+	<string name="about_pasaia"><b>Pasaiako Udala</b>\n<i>https://www.pasaia.eus</i></string>
+	<string name="about_developed">Garapena</string>
 </resources>

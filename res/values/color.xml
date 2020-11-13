@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 	<color name="HorKonponMain">#33b5e5</color>
+	<color name="HorKonponMainDark">#0487B9</color>
+	<color name="HorKonponMainAccent">#0CA3DC</color>
 	<color name="Title">#ffffff</color>
 	<color name="URL">#999999</color>
+	<color name="MessagesScreenBackground">#eeeeee</color>
+	<color name="MessageBackground">#ffffff</color>
+	<color name="MessageBackgroundMine">#b7e5f6</color>
+	<color name="MessageSubText">#999999</color>
 </resources>

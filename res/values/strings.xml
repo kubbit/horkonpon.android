@@ -1,81 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">HorKonpon</string>
-	<string name="no_gps">GPS-a inaktibo</string>
-	<string name="searching_location">Kokapena bilatzen...</string>
-	<string name="location_set">Kokapena ezarrita</string>
-	<string name="picture">Argazkia</string>
-	<string name="fullname">Izena</string>
-	<string name="phone">Telefonoa</string>
-	<string name="mail">e-Posta</string>
-	<string name="comment">Oharrak</string>
-	<string name="send">Bidali</string>
-	<string name="preferences">Ezarpenak</string>
-	<string name="contact_info">Kontakturako informazioa</string>
-	<string name="ohartarazi">Ohartarazi</string>
-	<string name="ohartarazi_deskribapena">Udaletxeari egoera aldaketei buruzko ohartarazpenak bidaltzea eskatu</string>
-	<string name="anonymous">Anonimoki bidali</string>
-	<string name="anonymous_deskribapena">Hau desaktibatzean Lege-oharra atalean agertzen diren zure datuen erabilera baldintzak onartzen dituzu</string>
-	<string name="send_progress">Bidaltzen...</string>
-	<string name="language">Hizkuntza</string>
+	<string name="app_name" translatable="false">HorKonpon</string>
+	<string name="picture">Photo</string>
+	<string name="picture_add">Add new photo</string>
+	<string name="no_gps">GPS disabled</string>
+	<string name="searching_location">Searching location…</string>
+	<string name="location_set">Location set</string>
+	<string name="navigation_drawer_open">Navigation drawer open</string>
+	<string name="navigation_drawer_close">Navigation drawer closed</string>
+	<!--string name="fullname">Name</string>
+	<string name="phone">Phone</string>
+	<string name="mail">E-Mail</string-->
+	<string name="comment">Comments</string>
+	<string name="type_message">Type a message</string>
+	<string name="send">Send</string>
+	<string name="last_updated">Last modified</string>
+	<string name="last_messages">Recent messages</string>
+	<plurals name="new_messages">
+		<item quantity="one">You have %d new message</item>
+		<item quantity="other">You have %d new messages</item>
+	</plurals>
+	<string name="preferences">Preferences</string>
+	<!--string name="contact_info">Contact info</string>
+	<string name="ohartarazi">Notify</string>
+	<string name="ohartarazi_deskribapena">Request notifications about status changes to the council</string>
+	<string name="anonymous">Anonymous communication</string>
+	<string name="anonymous_deskribapena">If you disable this checkbox, you accept the terms and conditions as shown in the Legal section</string-->
+	<string name="sync_progress">Syncing…</string>
+	<string name="language">Language</string>
 	<string-array name="languageEntries">
-		<item name="system_default_language">Sistemako hizkuntza</item>
+		<item name="system_default_language">System language</item>
+		<item>English</item>
 		<item>Español</item>
 		<item>Euskera</item>
 	</string-array>
-	<string name="sent">Bidalita</string>
-	<string name="gps_disabled">GPS-a ez dago gaituta. Ezarpenak ireki eskuz gaitzeko?</string>
-	<string name="button_positive">Bai</string>
-	<string name="button_negative">Ez</string>
-	<string name="error_http">Bidaltzerakoan errorea. Beranduago saiatu berriz ere.</string>
-	<string name="error_no_internet">Internet-erako konexioa beharrezkoa da gertakaria bidaltzeko.</string>
-	<string name="error_while_loading_picture">Errorea argazkia gordetzerakoan. Diskoan leku librea dagoelaz ziurtatu eta berriz ere saiatu.</string>
-	<string name="validate_gertakaria_no_gps">Kokapena ezin izan da ezarri. GPS-a aktibo dagoelaz ziurtatu</string>
-	<string name="validate_gertakaria_no_data">Argazkia edo oharra beharrezkoa da</string>
-	<string name="message_contact_info">Zure kontaktu datuak betetzea gomendatzen dugu. Behar izanez gero, udaletxea zurekin harremanetan jartzeko izango duen modu bakarra da.\n\nDatuak aplikazioaren ezarpenetatik bete ditzakezu.\n\nMezu hau behin bakarrik agertuko da.</string>
-	<string name="disclaimer">Lege-oharra</string>
-	<string name="disclaimer_text"><![CDATA[
-<html>
-	<head>
-		<style type="text/css">
-body
-{
-	font-size: smaller;
-}
-p
-{
-	text-align: justify;
-	text-indent: 1em;
-}
-div:first-of-type
-{
-	margin-bottom: 4em;
-}
-		</style>
-	</head>
-	<body>
-		<div>
-			<p><b>PRIBATUTASUNA</b></p>
-			<p>Emandako Datu Pertsonalak erabiltzailearen onespenaz jasotzen dira, tratamendu automatizatua izango dute eta KUBBIT INFORMATION TECHNOLOGY S.L.ko Informazio Sisteman sartuko dira.</p>
-			<p>Datu horiek, aplikazioaren eremuan, kudeaketarako soilik erabiliko dira, eta beste administrazio publikoei edo besteri laga edo jakinarazi ahal izango zaizkie abenduaren 13ko 15/1999 Lege Organikoan (Datu Pertsonalak Babestekoan) aurreikusitakoa gertatzen denean.</p>
-			<p>Interesdunek datuak eskuratzeko, ezeztatzeko, zuzentzeko eta aurka egiteko eskubidea erabili ahal izango dute posta elektroniko bat <i><a href="mailto:arco@kubbit.com">arco@kubbit.com</a></i> helbidera bidaliz. Mezuaren gaian "BAJA HORKONPON" ezarri beharko dute.</p>
-		</div>
-		<div>
-			<p><b>LEGEZKO OHARRA</b></p>
-			<p>"Horkonpon" izeneko aplikazioaren eta bertan agertzen diren elementu guztien jabetza intelektualaren eskubideak KUBBIT INFORMATION TECHNOLOGY S.L.-ek (hemendik aurrera KUBBIT) dauzka. "Horkonpon" aplikazioa "GNU General Public License version 2 (GPLv2)" lizentziarekin baimendu da. Hurrengo helbidean GPLv2-ren informazio guztia lortu daiteke:<br />
-			<a href="http://www.gnu.org/licenses/gpl-2.0.html">http://www.gnu.org/licenses/gpl-2.0.html</a></p>
-			<p>KUBBITek bere buruari aitortzen dio, edozein unean eta aurretiaz ohartarazi gabe, aplikazioan dagoen informazioa edo haren konfigurazio zein itxuraren aldaketak eta eguneraketak egiteko ahalmena.</p>
-			<p>"Horkonpon" aplikazioaren bitartez bidaltzen den informazioa erabiltzailearen ardurakoak izango dira. Informazio bidalketa hauek sor dezakeen ondorio edo kaltearen inguruan, KUBBIT-ek ez du inolako erantzukizunik izango, bere eskumenen erabilera zehatzetan jarraitu behar dituen legezko xedapenak ezartzearen ondorioak diren egintza guztietan izan ezik.</p>
-		</div>
-	</body>
-</html>
-	]]></string>
-	<string name="about">Honi buruz...</string>
-	<string name="about_subsidized">Dirulaguntza</string>
-	<string name="about_gipuzkoako_foru_aldundia"><b>Gipuzkoako Foru Aldundia</b>\n<i>http://www.gipuzkoa.net</i></string>
-	<string name="about_errenteria"><b>Errenteriako Udala</b>\n<i>http://www.errenteria.net</i></string>
-	<string name="about_hernani"><b>Hernaniko Udala</b>\n<i>http://www.hernani.net</i></string>
-	<string name="about_pasaia"><b>Pasaiako Udala</b>\n<i>http://www.pasaia.net</i></string>
-	<string name="about_developed">Garapena</string>
-	<string name="about_kubbit"><b>Kubbit Information Technology</b>\n<i>http://kubbit.com</i></string>
+	<string-array name="languageValues" translatable="false">
+		<item></item>
+		<item>en</item>
+		<item>es</item>
+		<item>eu</item>
+	</string-array>
+	<!--string name="preferences_show_advanced">Show advanced</string>
+	<string name="preferences_advanced">Advanced settings</string>
+	<string name="preferences_api_url">Server address</string>
+	<string name="preferences_api_user">Username</string>
+	<string name="preferences_api_password">Password</string-->
+	<string name="gps_disabled">GPS is disabled. Do you want to open settings panel to enable it?</string>
+	<string name="button_positive">Yes</string>
+	<string name="button_negative">No</string>
+	<string name="disclaimer">Legal</string>
+	<string name="error_while_loading_picture">Error while saving photo. Check device free space and try again.</string>
+	<string name="validate_gertakaria_no_gps">Cannot get location. Check GPS is active</string>
+	<string name="validate_gertakaria_no_data">You need to send a picture or some text describing the issue</string>
+	<string name="list_title">Sent</string>
+	<!--string name="anonymous_confirm_title">Privacy</string-->
+	<string name="about">About…</string>
+	<string name="about_subsidized">Subsidized by (version 1.0)</string>
+	<string name="about_gipuzkoako_foru_aldundia"><b>Gipuzkoako Foru Aldundia</b>\n<i>https://www.gipuzkoa.eus</i></string>
+	<string name="about_errenteria"><b>Errenteriako Udala</b>\n<i>https://errenteria.eus</i></string>
+	<string name="about_hernani"><b>Hernaniko Udala</b>\n<i>https://www.hernani.eus</i></string>
+	<string name="about_pasaia"><b>Pasaiako Udala</b>\n<i>https://www.pasaia.eus</i></string>
+	<string name="about_developed"><b>Developed by</b></string>
+	<string name="about_kubbit" translatable="false"><b>Kubbit</b>\n<i>https://kubbit.com</i></string>
 </resources>

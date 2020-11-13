@@ -1,4 +1,14 @@
 ================================================================================
+  Version 2.0
+================================================================================
+- Multiple pictures and text messages for the same issue
+- Two-way communication with the council
+- Local storage of sent issues
+- Synchronization with server in background
+- Updated to HorKonpon API version 3
+- Improved location detection by using wifi networks
+
+================================================================================
   Version 1.2
 ================================================================================
 - Improved positioning algorithm

@@ -1,32 +1,43 @@
 package com.kubbit.utils;
 
-import java.io.StringWriter;
+import com.kubbit.horkonpon.BuildConfig;
 
 public class Log
 {
-	private final static StringWriter info = new StringWriter();
-	private final static StringWriter debug = new StringWriter();
+	private static final String LOG_TAG = "com.kubbit.horkonpon";
 
-	public static void info(String value)
+	public static void info(String message)
 	{
-		info.append(value);
+		if (message == null)
+			message = "NULL";
 
-		debug(value);
+		android.util.Log.i(LOG_TAG, message);
 	}
 
-	public static void debug(String value)
+	public static void error(String message)
 	{
-		debug.append(value);
-		debug.append("\n");
+		if (message == null)
+			message = "NULL";
+
+		android.util.Log.e(LOG_TAG, message);
 	}
 
-	public static String getInfo()
+	public static void debug(String message)
 	{
-		return info.toString();
+		if (!BuildConfig.DEBUG)
+			return;
+
+		if (message == null)
+			message = "NULL";
+
+		android.util.Log.d(LOG_TAG, message);
 	}
 
-	public static String getDebug()
+	public static void trace()
 	{
-		return debug.toString();
+		if (!BuildConfig.DEBUG)
+			return;
+
+		java.lang.Thread.dumpStack();
 	}
 }

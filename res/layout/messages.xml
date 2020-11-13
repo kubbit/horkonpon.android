@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+ xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ android:orientation="vertical"
+ android:paddingTop="0dp"
+ android:paddingBottom="10dp"
+ android:paddingLeft="10dp"
+ android:paddingRight="10dp"
+ android:background="@color/MessagesScreenBackground"
+ android:layout_width="fill_parent"
+ android:layout_height="fill_parent">
+
+	<LinearLayout
+	 android:id="@+id/panel"
+	 android:orientation="horizontal"
+	 android:layout_alignParentBottom="true"
+	 android:layout_marginTop="10dp"
+	 android:layout_width="fill_parent"
+	 android:layout_height="wrap_content">
+		<EditText
+		 android:id="@+id/write"
+		 android:background="@drawable/rounded_rectangle"
+		 android:padding="10dp"
+		 android:hint="@string/type_message"
+		 android:layout_width="0dp"
+		 android:layout_height="match_parent"
+		 android:layout_weight="1"
+		 android:inputType="textMultiLine|textCapSentences|textLongMessage"
+		 android:importantForAutofill="no"
+		 android:gravity="center_vertical|left"
+		 android:minLines="1" />
+		<com.google.android.material.floatingactionbutton.FloatingActionButton
+		 android:id="@+id/send"
+		 android:contentDescription="@string/send"
+		 android:layout_width="wrap_content"
+		 android:layout_height="wrap_content"
+		 android:layout_marginTop="-16dp"
+		 android:layout_marginBottom="-16dp"
+		 android:layout_marginRight="-6dp"
+		 app:useCompatPadding="true"
+		 android:src="@drawable/ic_send_white"
+		 android:onClick="sendOnClick" />
+	</LinearLayout>
+
+	<View
+	 android:id="@+id/divider"
+	 android:layout_above="@id/panel"
+	 android:layout_width="match_parent"
+	 android:layout_height="2dp"
+	 android:background="#dddddd" />
+
+	<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+	 android:id="@+id/pullToRefresh"
+	 android:layout_above="@id/divider"
+	 android:layout_width="fill_parent"
+	 android:layout_height="fill_parent">
+		<ListView
+		 android:id="@+id/lstMessages"
+		 android:layout_width="fill_parent"
+		 android:layout_height="fill_parent"
+		 android:paddingBottom="10dp"
+		 android:clipToPadding="false"
+		 android:listSelector="@android:color/transparent"
+		 android:cacheColorHint="@android:color/transparent"
+		 android:stackFromBottom="true"
+		 android:divider="@android:color/transparent"
+		 android:transcriptMode="alwaysScroll" />
+	</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

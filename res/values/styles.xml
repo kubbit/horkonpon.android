@@ -3,6 +3,10 @@
 	<style name="HorKonpon" parent="@style/Theme.AppCompat.Light">
 		<item name="android:actionBarStyle">@style/HorKonpon.ActionBar</item>
 		<item name="actionBarStyle">@style/HorKonpon.ActionBar</item>
+		<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+		<item name="colorPrimary">@color/HorKonponMain</item>
+		<item name="colorPrimaryDark">@color/HorKonponMainDark</item>
+		<item name="colorAccent">@color/HorKonponMainAccent</item>
 	</style>
 
 	<style name="HorKonpon.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
@@ -14,5 +18,10 @@
 
 	<style name="HorKonpon.ActionBar.TitleTextStyle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
 		<item name="android:textColor">@color/Title</item>
+	</style>
+
+	<style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+		<item name="spinBars">true</item>
+		<item name="color">@android:color/white</item>
 	</style>
 </resources>

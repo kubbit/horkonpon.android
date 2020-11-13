@@ -1,6 +1,7 @@
 package com.kubbit.preference;
 
 import android.content.Context;
+import android.text.InputType;
 import android.util.AttributeSet;
 
 public class EditTextPreference extends android.preference.EditTextPreference
@@ -23,6 +24,12 @@ public class EditTextPreference extends android.preference.EditTextPreference
 	@Override
 	public CharSequence getSummary()
 	{
+		int variation = this.getEditText().getInputType() & InputType.TYPE_MASK_VARIATION;
+
+		if ((variation == InputType.TYPE_TEXT_VARIATION_PASSWORD)
+		 || (variation == InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD))
+			return super.getSummary();
+
 		return this.getText();
 	}
 }

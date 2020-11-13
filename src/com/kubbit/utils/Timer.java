@@ -16,10 +16,12 @@ public class Timer
 	{
 		this.timer = new CountDownTimer(milliseconds, milliseconds)
 		{
+			@Override
 			public void onTick(long millisUntilFinished)
 			{
 			}
 
+			@Override
 			public void onFinish()
 			{
 				timer_onFinish();
